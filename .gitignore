@@ -1,0 +1,35 @@
+**target/
+**nb-configuration.xml
+
+**HELP.md
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**
+!**/src/test/**
+
+### STS ###
+.spring-boot-module/apt_generated
+.spring-boot-module/classpath
+.spring-boot-module/factorypath
+.spring-boot-module/project
+.spring-boot-module/settings
+.spring-boot-module/springBeans
+.spring-boot-module/sts4-cache
+
+### NetBeans ###
+spring-boot-module/nbproject/private/
+spring-boot-module/nbbuild/
+spring-boot-module/dist/
+spring-boot-module/nbdist/
+spring-boot-module/.nb-gradle/
+spring-boot-module/build/
+
+
+spring-boot-module/mvnw.cmd
+
+spring-boot-module/mvnw
+
+spring-boot-module/.mvn/wrapper/MavenWrapperDownloader.java
+
+spring-boot-module/.mvn/wrapper/maven-wrapper.properties
+
+spring-boot-module/.mvn/wrapper/maven-wrapper.jar
