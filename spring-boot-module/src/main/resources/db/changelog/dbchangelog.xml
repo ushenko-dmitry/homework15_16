@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+	  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    
+    <changeSet id="1" author="dushenko">
+        <createTable tableName="item">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(40)" />
+            <column name="description" type="varchar(40)" />
+        </createTable>
+        <createTable tableName="shop">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(40)" />
+            <column name="location" type="varchar(40)" />
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="dushenko">
+        <createTable tableName="item_details">
+            <column name="item_id" type="int">
+                <constraints primaryKey="true" references="item(id)" foreignKeyName="FK_item_details_item" />
+            </column>
+            <column name="price" type="double" />
+        </createTable>
+    </changeSet>
+    <changeSet id="3" author="dushenko">
+        <createTable tableName="item_shop">
+            <column name="item_id" type="int">
+                <constraints primaryKey="true" references="item(id)" foreignKeyName="FK_item_shop_item" />
+            </column>
+            <column name="shop_id" type="int">
+                <constraints primaryKey="true" references="shop(id)" foreignKeyName="FK_item_shop_shop" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="4" author="dushenko">
+        <createView viewName="view_full_item">
+            SELECT 
+            i.id,
+            i.name,
+            i.description,
+            i_d.price
+            FROM item i
+            LEFT JOIN item_details i_d ON i_d.item_id=i.id;
+        </createView>
+        <createView viewName="view_shop_with_items">
+            SELECT 
+            i_s.shop_id, 
+            s.name AS "shop_name", 
+            s.location, 
+            i_s.item_id, 
+            i.name AS "item_name", 
+            i.description
+            FROM item_shop i_s 
+            JOIN shop s ON i_s.shop_id=s.id 
+            JOIN item i ON i_s.item_id=i.id 
+            ORDER BY s.id;
+        </createView>
+        <createView viewName="view_shop_with_full_items">
+            SELECT 
+            i_s.shop_id, 
+            s.name AS "shop_name", 
+            s.location, 
+            i_s.item_id, 
+            i.name AS "item_name", 
+            i.description,
+            i.price
+            FROM item_shop i_s 
+            JOIN shop s ON i_s.shop_id=s.id 
+            JOIN view_full_item i ON i_s.item_id=i.id 
+            ORDER BY s.id;
+        </createView>
+    </changeSet>
+    
+</databaseChangeLog>
